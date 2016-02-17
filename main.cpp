@@ -6,7 +6,6 @@ class Simulator : public QObject
 
 public:
     Simulator(const QString &filePath) :
-        mOutputTextStream(stdout),
         mAngle(0),
         mSpeedLeft(0),
         mSpeedRight(0)
@@ -50,7 +49,7 @@ private slots:
         }
 
         if (line.contains("angle")) {
-            write(QString::number(mAngle));
+            write(QString::number(123));
         } else if (line.contains("speedLeft")) {
             write(QString::number(mSpeedLeft));
         } else if (line.contains("speedRight")) {
@@ -66,13 +65,12 @@ private:
         if (mFile.isOpen())
             mFile.write(qPrintable(line));
         else
-            mOutputTextStream << line;
+            QTextStream(stdout) << line;
     }
 
     QTimer mTimer;
     QFile mFile;
     QScopedPointer<QTextStream> mInputTextStream;
-    QTextStream mOutputTextStream;
 
     QPointF mPos;
     qreal mAngle;
